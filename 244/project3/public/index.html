@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <title>HeartBeat &amp; Green light data</title>
+    <script src="javascripts/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/Chart.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="javascripts/index.js" type="text/javascript" charset="utf-8"></script>
+    <link href="stylesheets/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <canvas id="myChart" width="400" height="150"></canvas>
+
+	<p id=p1>all data</p>
+	<p id=p2>testFinger</p>
+	<p id=p3>temperature</p>
+	<button onclick="sendM()">123</button>
+
+</body>
+<script type="text/javascript">
+function sendM() {
+    var mailTransport = nodemailer.createTransport({
+    host : 'smtp.163.com',
+    secureConnection: true, // 使用SSL方式（安全方式，防止被窃取信息）
+    auth : {
+        user : '18813128317@163.com',
+        pass : 'l.199496'
+    },
+  });
+    var options = {
+        from        : '18813128317@163.com',
+        to          : '775015051@qq.com',
+        // cc         : ''  //抄送
+        // bcc      : ''    //密送
+        subject        : '一封来自Node Mailer的邮件',
+        text          : '一封来自Node Mailer的邮件',
+        html           : '<h1>你好，这是一封来自NodeMailer的邮件！</h1><p><img src="cid:00000001"/></p>'
+    };
+    
+    mailTransport.sendMail(options, function(err, msg){
+        if(err){
+            console.log(err);
+            res.render('index', { title: err });
+        }
+        else {
+            console.log(msg);
+            res.render('index', { title: "已接收："+msg.accepted});
+        }
+    });
+    console.log('Successfully connect WebSocket');
+  }
+</script>
+</html>
